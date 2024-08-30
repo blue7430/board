@@ -14,7 +14,8 @@
     <br>
     <p th:text="${data.content}"></p>
     <a th:href="@{'/board' + '/post/'+ ${data.post_id} + '/edit'}">게시글 수정</a>
-    
+    <a th:href="@{'/board' + '/post/'+ ${data.post_id} + '/delete'}">게시글 삭제</a>
+
 
 </body>
 </html>

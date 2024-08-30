@@ -62,10 +62,21 @@ public class PostsController {
         postsService.updateposts(user_id, title, content, post_id);
         return "redirect:/board";
     }
+
+    @GetMapping("/board/post/{post_id}/delete")
+    public String delete(@PathVariable Integer post_id, Model model) {
+        Optional<Posts> result = postsRepository.findById(post_id);
+        if (result.isPresent()) {
+            model.addAttribute("data", result.get());
+            return "delete";
+        } else {
+            return "redirect:/board";
+        }
+    }
+
+    @PostMapping("/board/post/{post_id}/delete")
+    public String deletePost(@PathVariable Integer post_id, Model model){
+        postsService.deletepost(post_id);
+        return "redirect:/board";
+    }
 }
-
-
-
-
-
-

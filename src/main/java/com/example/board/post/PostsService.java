@@ -28,4 +28,8 @@ public class PostsService {
         posts.setContent(content);
         postsRepository.save(posts);
     }
+    //글 삭제
+    public void deletepost(Integer post_id){
+        postsRepository.deleteById(post_id);
+    }
 }
