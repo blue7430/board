@@ -8,7 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>게시글 페이지</h1>
+    <h1 th:text="${data.title}"></h1>
+    <h4>작성자 : <a th:text="${data.user_id}"></a></h4>
+    <p>작성시간 : <a th:text="${data.created_at}"></a></p>
+    <br>
+    <p th:text="${data.content}"></p>
+    <a th:href="@{'/board' + '/post/'+ ${data.post_id} + '/edit'}">게시글 수정</a>
+    
 
 </body>
 </html>

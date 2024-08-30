@@ -17,27 +17,50 @@ public class PostsController {
     private final PostsRepository postsRepository;
     private final PostsService postsService;
 
-    @GetMapping("/board")
+    @GetMapping("/board")//글 목록
     public String board(Model model) {
         List<Posts> result = postsRepository.findAll();
         model.addAttribute("posts", result);
         return "board";
     }
 
-    @GetMapping("/board/write-form")
+    @GetMapping("/board/write-form")//글 작성
     public String write() {
         return "write-form";
     }
 
     @PostMapping("/board/write-form")
-    public String addPost(Integer user_id, String title, String content) {
+    public String writePost(Integer user_id, String title, String content) {
         postsService.saveposts(user_id, title, content);
         return "redirect:/board";
     }
 
-    @GetMapping("/board/post/{id}")
+    @GetMapping("/board/post/{post_id}")//상세페이지
     public String post(@PathVariable Integer post_id, Model model) {
-        return "post";
+        Optional<Posts> result = postsRepository.findById(post_id);
+        if (result.isPresent()) {
+            model.addAttribute("data", result.get());
+            return "post";
+        } else {
+            return "redirect:/board";
+        }
+    }
+
+    @GetMapping("/board/post/{post_id}/edit")//글 수정
+    public String edit(@PathVariable Integer post_id, Model model) {
+        Optional<Posts> result = postsRepository.findById(post_id);
+        if (result.isPresent()) {
+            model.addAttribute("data", result.get());
+            return "edit";
+        } else {
+            return "redirect:/board";
+        }
+    }
+
+    @PostMapping("/board/post/{post_id}/edit")
+    public String editpost(Integer user_id, String title, String content, Integer post_id){
+        postsService.updateposts(user_id, title, content, post_id);
+        return "redirect:/board";
     }
 }
 

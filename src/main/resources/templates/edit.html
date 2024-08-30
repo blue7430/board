@@ -9,5 +9,12 @@
 </head>
 <body>
     <h1>게시글 수정</h1>
+    <form th:action="@{'/board' + '/post/'+ ${data.post_id} + '/edit'}" method="POST">
+        <input name="post_id" th:value="${data.post_id}">
+        <input name="user_id" th:value="${data.user_id}">
+        <input name="title" th:value="${data.title}">
+        <input name="content" th:value="${data.content}">
+        <button type="submit">전송</button>
+    </form>
 </body>
 </html>
