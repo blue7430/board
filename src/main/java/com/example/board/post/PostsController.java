@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -30,8 +31,8 @@ public class PostsController {
     }
 
     @PostMapping("/board/write-form")
-    public String writePost(Integer user_id, String title, String content) {
-        postsService.saveposts(user_id, title, content);
+    public String writePost(@ModelAttribute PostDTO postDTO) {
+        postsService.saveposts(postDTO);
         return "redirect:/board";
     }
 
@@ -58,8 +59,8 @@ public class PostsController {
     }
 
     @PostMapping("/board/post/{post_id}/edit")
-    public String editpost(Integer user_id, String title, String content, Integer post_id){
-        postsService.updateposts(user_id, title, content, post_id);
+    public String editpost(@ModelAttribute PostDTO postDTO, Integer post_id){
+        postsService.updateposts(postDTO, post_id);
         return "redirect:/board";
     }
 
@@ -75,8 +76,9 @@ public class PostsController {
     }
 
     @PostMapping("/board/post/{post_id}/delete")
-    public String deletePost(@PathVariable Integer post_id, Model model){
+    public String deletePost(@PathVariable Integer post_id, Model model) {
         postsService.deletepost(post_id);
         return "redirect:/board";
     }
 }
+

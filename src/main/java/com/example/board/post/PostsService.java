@@ -11,22 +11,23 @@ public class PostsService {
 
     private final PostsRepository postsRepository;
     //글 작성
-    public void saveposts(Integer user_id, String title, String content){
+    public void saveposts(PostDTO postDTO){
         Posts posts = new Posts();
-        posts.setUser_id(user_id);
-        posts.setTitle(title);
-        posts.setContent(content);
+        posts.setUser_id(postDTO.getUser_id());
+        posts.setTitle(postDTO.getTitle());
+        posts.setContent(postDTO.getContent());
         postsRepository.save(posts);
     }
     // 글 수정
-    public void updateposts(Integer user_id, String title, String content, Integer post_id){
+    public void updateposts(PostDTO postDTO, Integer post_id) {
         Optional<Posts> optionalPosts = postsRepository.findById(post_id);
-        Posts posts = optionalPosts.get();
-        posts.setPost_id(post_id);
-        posts.setUser_id(user_id);
-        posts.setTitle(title);
-        posts.setContent(content);
-        postsRepository.save(posts);
+        if (optionalPosts.isPresent()) {
+            Posts posts = optionalPosts.get();
+            posts.setUser_id(postDTO.getUser_id());
+            posts.setTitle(postDTO.getTitle());
+            posts.setContent(postDTO.getContent());
+            postsRepository.save(posts);
+        }
     }
     //글 삭제
     public void deletepost(Integer post_id){
